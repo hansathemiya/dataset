@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "review": "NaijaAssets help me find my dream house for Lagos sharp-sharp. Di platform easy to use and di agents sabi work — dem dey quick respond and act professional. I see my correct apartment within two weeks!",
+    "name": "Chinedu Akande",
+    "title": "Homeowner",
+    "profilePicture": "chinedu_akande.jpg",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "review": "I was skeptical at first, but the escrow system gave me peace of mind. Found a great commercial space in Abuja in under 10 days!",
+    "name": "Amina Yusuf",
+    "title": "Investor",
+    "profilePicture": "amina_yusuf.jpg",
+    "rating": 5
+  },
+  {
+    "id": 3,
+    "review": "The personalized alerts saved me so much time. Got notified about a shortlet in Lekki that matched my criteria perfectly.",
+    "name": "Tunde Olatunji",
+    "title": "Renter",
+    "profilePicture": "tunde_olatunji.jpg",
+    "rating": 4
+  }
+]
