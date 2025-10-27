@@ -1,0 +1,76 @@
+[
+  {
+    "id": 1,
+    "title": "2nd Floor Office Building with Panoramic Views",
+    "type": "commercial",
+    "for": "rent",
+    "price": 75000,
+    "currency": "₦",
+    "unit": "/day",
+    "size": "2400 sqft",
+    "location": "Cross River, Calabar, Stadium Road",
+    "bedrooms": null,
+    "bathrooms": 2,
+    "furnished": false,
+    "parking": true,
+    "keywords": ["office", "commercial", "city view"],
+    "images": [
+      "office_lagos_1.jpg",
+      "office_lagos_2.jpg",
+      "office_lagos_3.jpg"
+    ],
+    "video": "office_lagos_video.mp4",
+    "description": "Spacious office space with high ceilings, natural light, and modern finishes. Perfect for startups or established businesses looking to expand in Calabar.",
+    "href": "https://naijaassets.com/property/1",
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Genesis OF Nigeria Cottage",
+    "type": "cottage",
+    "for": "rent",
+    "price": 55000,
+    "currency": "₦",
+    "unit": "/day",
+    "size": "1400 sqft",
+    "location": "Cross River, Calabar, Stadium Road",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "furnished": true,
+    "parking": true,
+    "keywords": ["cottage", "garden", "family"],
+    "images": [
+      "cottage_calabar_1.jpg",
+      "cottage_calabar_2.jpg"
+    ],
+    "video": null,
+    "description": "Charming cottage nestled in a quiet neighborhood. Features a private garden, open-plan living, and modern kitchen. Ideal for families or remote workers.",
+    "href": "https://naijaassets.com/property/2",
+    "featured": true
+  },
+  {
+    "id": 3,
+    "title": "Modern Retro Loft in Lekki",
+    "type": "apartment",
+    "for": "buy",
+    "price": 125000000,
+    "currency": "₦",
+    "unit": "",
+    "size": "3400 sqft",
+    "location": "Lekki Phase 1, Lagos",
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "furnished": true,
+    "parking": true,
+    "keywords": ["loft", "modern", "luxury"],
+    "images": [
+      "loft_lekki_1.jpg",
+      "loft_lekki_2.jpg",
+      "loft_lekki_3.jpg"
+    ],
+    "video": "loft_lekki_tour.mp4",
+    "description": "Stunning retro-modern loft with floor-to-ceiling windows, smart home system, and rooftop terrace. A rare gem in Lekki’s most exclusive enclave.",
+    "href": "https://naijaassets.com/property/3",
+    "featured": true
+  }
+]
