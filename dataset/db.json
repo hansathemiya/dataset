@@ -1,0 +1,42 @@
+[
+  {
+    "name": "sunset.jpg",
+    "type": "image",
+    "keywords": ["sunset", "landscape", "nature", "evening", "golden hour"]
+  },
+  {
+    "name": "mountain-peak.jpg",
+    "type": "image",
+    "keywords": ["mountain", "peak", "alps", "nature", "hiking"]
+  },
+  {
+    "name": "ocean-waves.jpg",
+    "type": "image",
+    "keywords": ["ocean", "waves", "beach", "coast", "water"]
+  },
+  {
+    "name": "forest-path.jpg",
+    "type": "image",
+    "keywords": ["forest", "path", "trees", "nature", "trail"]
+  },
+  {
+    "name": "wildlife-documentary.mp4",
+    "type": "video",
+    "keywords": ["wildlife", "documentary", "animals", "nature", "safari"]
+  },
+  {
+    "name": "city-time-lapse.mp4",
+    "type": "video",
+    "keywords": ["city", "time-lapse", "urban", "traffic", "night"]
+  },
+  {
+    "name": "abstract-art.jpg",
+    "type": "image",
+    "keywords": ["abstract", "art", "colors", "modern", "design"]
+  },
+  {
+    "name": "travel-adventure.mp4",
+    "type": "video",
+    "keywords": ["travel", "adventure", "exploration", "journey", "backpacking"]
+  }
+]
