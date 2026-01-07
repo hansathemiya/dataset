@@ -418,12 +418,12 @@
             themeIcon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        // Fetch ds.json data
+        // Fetch dl.json data
         function fetchJsonData() {
-            fetch('ds.json')
+            fetch('dl.json')
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('ds.json not found');
+                        throw new Error('dl.json not found');
                     }
                     return response.json();
                 })
@@ -432,12 +432,12 @@
                     renderGallery();
                 })
                 .catch(error => {
-                    console.error('Error loading ds.json:', error);
+                    console.error('Error loading dl.json:', error);
                     gallery.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-exclamation-triangle"></i>
                             <h3>Error Loading Data</h3>
-                            <p>Could not load ds.json. Please check if the file exists.</p>
+                            <p>Could not load dl.json. Please check if the file exists.</p>
                         </div>
                     `;
                 });
