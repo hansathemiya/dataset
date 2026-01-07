@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent-color: #0d6efd;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border-color: #343a40;
+            --shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        * {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 60px;
+            min-height: 100vh;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--bg-primary);
+            box-shadow: var(--shadow);
+            padding: 12px 15px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 8px 15px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .media-item {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .media-preview {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-preview {
+            transition: transform 0.3s ease;
+        }
+
+        .image-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .video-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .media-info {
+            padding: 15px;
+        }
+
+        .media-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background: var(--accent-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        /* Hamburger menu */
+        .hamburger {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        /* Slider menu */
+        .slider-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background-color: var(--bg-primary);
+            z-index: 2000;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+            transition: left 0.3s ease;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .slider-menu.active {
+            left: 0;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .media-preview {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .media-preview {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with hamburger menu -->
+    <header>
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">Dataset</div>
+            <div class="theme-toggle-icon">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </div>
+        </div>
+        
+        <div class="search-container mt-3">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-bar" placeholder="Search datasets...">
+        </div>
+    </header>
+
+    <!-- Slider Menu -->
+    <nav class="slider-menu" id="slider-menu">
+        <a href="/datasets/index.html" class="menu-item">
+            <i class="fas fa-home me-2"></i> Home
+        </a>
+        <a href="#" class="menu-item filter-link" data-filter="image">
+            <i class="fas fa-image me-2"></i> Images
+        </a>
+        <a href="#" class="menu-item filter-link" data-filter="video">
+            <i class="fas fa-video me-2"></i> Videos
+        </a>
+        <a href="#" class="menu-item filter-link active" data-filter="all">
+            <i class="fas fa-th me-2"></i> All Files
+        </a>
+        
+        <div class="theme-toggle">
+            <span>Dark Mode</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </nav>
+    
+    <!-- Overlay for menu -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <!-- Filter buttons -->
+    <div class="container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="image">Images</button>
+            <button class="filter-btn" data-filter="video">Videos</button>
+        </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery" id="gallery">
+        <!-- Media items will be dynamically inserted here -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // DOM Elements
+        const hamburger = document.getElementById('hamburger');
+        const sliderMenu = document.getElementById('slider-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const searchBar = document.getElementById('search-bar');
+        const gallery = document.getElementById('gallery');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const filterLinks = document.querySelectorAll('.filter-link');
+
+        // State variables
+        let currentFilter = 'all';
+        let searchTerm = '';
+        let mediaData = [];
+        let jsonData = [];
+
+        // Initialize the app
+        function init() {
+            loadTheme();
+            fetchJsonData();
+            fetchMediaFiles();
+            setupEventListeners();
+        }
+
+        // Load theme from localStorage
+        function loadTheme() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggle.checked = isDarkMode;
+            updateThemeIcon(isDarkMode);
+        }
+
+        // Update theme icon based on current mode
+        function updateThemeIcon(isDarkMode) {
+            themeIcon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Fetch ds.json data
+        function fetchJsonData() {
+            fetch('ds.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('ds.json not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    jsonData = data;
+                    renderGallery();
+                })
+                .catch(error => {
+                    console.warn('ds.json not found:', error);
+                    renderGallery();
+                });
+        }
+
+        // Fetch media files from the current directory
+        function fetchMediaFiles() {
+            // In a real implementation, this would use the GitHub API or server-side solution
+            // For this example, we'll simulate the media files
+            simulateMediaFiles();
+        }
+
+        // Simulate media files (in a real implementation, this would fetch from the server)
+        function simulateMediaFiles() {
+            // This is a simulation - in a real implementation, you would fetch from the server
+            mediaData = [
+                { name: 'mountain-landscape.jpg', type: 'image', keywords: ['nature', 'mountains', 'landscape'] },
+                { name: 'sunset-beach.jpg', type: 'image', keywords: ['sunset', 'beach', 'ocean'] },
+                { name: 'forest-path.jpg', type: 'image', keywords: ['forest', 'path', 'trees'] },
+                { name: 'city-skyline.jpg', type: 'image', keywords: ['city', 'skyline', 'urban'] },
+                { name: 'wildlife-video.mp4', type: 'video', keywords: ['wildlife', 'animals', 'nature'] },
+                { name: 'abstract-art.jpg', type: 'image', keywords: ['abstract', 'art', 'colors'] },
+                { name: 'travel-video.mp4', type: 'video', keywords: ['travel', 'adventure', 'exploration'] },
+                { name: 'architecture.jpg', type: 'image', keywords: ['architecture', 'buildings', 'design'] }
+            ];
+            renderGallery();
+        }
+
+        // Render gallery based on current filter and search term
+        function renderGallery() {
+            // Clear gallery
+            gallery.innerHTML = '';
+            
+            // Filter media based on current filter and search term
+            const filteredMedia = mediaData.filter(item => {
+                const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
+                const matchesSearch = !searchTerm || 
+                    item.keywords.some(keyword => 
+                        keyword.toLowerCase().includes(searchTerm.toLowerCase())
+                    ) || 
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase());
+                
+                return matchesFilter && matchesSearch;
+            });
+            
+            // Render media items
+            if (filteredMedia.length === 0) {
+                gallery.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No datasets found</h3>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredMedia.forEach(item => {
+                const mediaItem = document.createElement('div');
+                mediaItem.className = 'media-item';
+                
+                let previewHtml = '';
+                if (item.type === 'image') {
+                    previewHtml = `<img src="${item.name}" class="media-preview image-preview" alt="${item.name}">`;
+                } else {
+                    previewHtml = `<video class="media-preview video-preview" preload="metadata">
+                        <source src="${item.name}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>`;
+                }
+                
+                mediaItem.innerHTML = `
+                    <div class="preview-container">
+                        ${previewHtml}
+                    </div>
+                    <div class="media-info">
+                        <div class="media-name">${item.name}</div>
+                        <a href="${item.name}" download class="download-btn">
+                            <i class="fas fa-download me-1"></i> Download
+                        </a>
+                    </div>
+                `;
+                
+                gallery.appendChild(mediaItem);
+            });
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Hamburger menu toggle
+            hamburger.addEventListener('click', () => {
+                sliderMenu.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+            });
+            
+            menuOverlay.addEventListener('click', () => {
+                sliderMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            });
+            
+            // Theme toggle
+            themeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode', themeToggle.checked);
+                localStorage.setItem('darkMode', themeToggle.checked);
+                updateThemeIcon(themeToggle.checked);
+            });
+            
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update current filter
+                    currentFilter = button.dataset.filter;
+                    renderGallery();
+                });
+            });
+            
+            // Filter links in slider menu
+            filterLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active link
+                    filterLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Update current filter
+                    currentFilter = link.dataset.filter;
+                    renderGallery();
+                    
+                    // Close menu
+                    sliderMenu.classList.remove('active');
+                    menuOverlay.classList.remove('active');
+                });
+            });
+            
+            // Search functionality
+            searchBar.addEventListener('input', () => {
+                searchTerm = searchBar.value.trim();
+                renderGallery();
+            });
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
