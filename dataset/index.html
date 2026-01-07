@@ -341,7 +341,7 @@
 
     <!-- Slider Menu -->
     <nav class="slider-menu" id="slider-menu">
-        <a href="/dataset/index.html" class="menu-item">
+        <a href="/datasets/index.html" class="menu-item">
             <i class="fas fa-home me-2"></i> Home
         </a>
         <a href="#" class="menu-item filter-link" data-filter="image">
@@ -396,14 +396,12 @@
         // State variables
         let currentFilter = 'all';
         let searchTerm = '';
-        let mediaData = [];
         let jsonData = [];
 
         // Initialize the app
         function init() {
             loadTheme();
             fetchJsonData();
-            fetchMediaFiles();
             setupEventListeners();
         }
 
@@ -434,32 +432,15 @@
                     renderGallery();
                 })
                 .catch(error => {
-                    console.warn('ds.json not found:', error);
-                    renderGallery();
+                    console.error('Error loading ds.json:', error);
+                    gallery.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Error Loading Data</h3>
+                            <p>Could not load ds.json. Please check if the file exists.</p>
+                        </div>
+                    `;
                 });
-        }
-
-        // Fetch media files from the current directory
-        function fetchMediaFiles() {
-            // In a real implementation, this would use the GitHub API or server-side solution
-            // For this example, we'll simulate the media files
-            simulateMediaFiles();
-        }
-
-        // Simulate media files (in a real implementation, this would fetch from the server)
-        function simulateMediaFiles() {
-            // This is a simulation - in a real implementation, you would fetch from the server
-            mediaData = [
-                { name: 'mountain-landscape.jpg', type: 'image', keywords: ['nature', 'mountains', 'landscape'] },
-                { name: 'sunset-beach.jpg', type: 'image', keywords: ['sunset', 'beach', 'ocean'] },
-                { name: 'forest-path.jpg', type: 'image', keywords: ['forest', 'path', 'trees'] },
-                { name: 'city-skyline.jpg', type: 'image', keywords: ['city', 'skyline', 'urban'] },
-                { name: 'wildlife-video.mp4', type: 'video', keywords: ['wildlife', 'animals', 'nature'] },
-                { name: 'abstract-art.jpg', type: 'image', keywords: ['abstract', 'art', 'colors'] },
-                { name: 'travel-video.mp4', type: 'video', keywords: ['travel', 'adventure', 'exploration'] },
-                { name: 'architecture.jpg', type: 'image', keywords: ['architecture', 'buildings', 'design'] }
-            ];
-            renderGallery();
         }
 
         // Render gallery based on current filter and search term
@@ -468,7 +449,7 @@
             gallery.innerHTML = '';
             
             // Filter media based on current filter and search term
-            const filteredMedia = mediaData.filter(item => {
+            const filteredMedia = jsonData.filter(item => {
                 const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
                 const matchesSearch = !searchTerm || 
                     item.keywords.some(keyword => 
